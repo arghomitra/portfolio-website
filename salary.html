@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="salary.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <title>Salary Calculator</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Salary Calculator</h1>
+        </header>
+        <div class="form">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" required aria-label="First Name">
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" required aria-label="Last Name">
+
+            <label for="companyName">Company Name:</label>
+            <input type="text" id="companyName" required aria-label="Company Name">
+
+            <label for="date">Date:</label>
+            <input type="text" id="date" required aria-label="Date" placeholder="Select dates" readonly>
+
+            <label for="startTime">Start Time:</label>
+            <input type="time" id="startTime" required aria-label="Start Time">
+
+            <label for="endTime">End Time:</label>
+            <input type="time" id="endTime" required aria-label="End Time">
+
+            <label for="hourlySalary">Hourly Salary (€):</label>
+            <input type="number" id="hourlySalary" required aria-label="Hourly Salary">
+
+            <button type="button" onclick="addEntries()">Add Entries</button>
+            <button type="button" onclick="calculateSalary()">Calculate Salary</button>
+        </div>
+        <div id="results" class="hidden">
+            <h2>Results</h2>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Total Hours</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <p id="totalHours">Total Hours: 0.00</p>
+            <p id="totalSalary" class="hidden">Total Salary: €0.00</p>
+            <button id="generatePDFBtn" onclick="generatePDF()" class="hidden">Generate PDF</button>
+        </div>
+        <footer>
+            &copy; 2023 Salary Calculator
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="salary.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            flatpickr("#date", {
+                mode: "multiple",
+                dateFormat: "Y-m-d"
+            });
+        });
+    </script>
+</body>
+</html>

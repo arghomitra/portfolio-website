@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Argho</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #0a0a0a;
+            --soft-black: #1a1a1a;
+            --silver: #c0c0c0;
+            --light-silver: #e8e8e8;
+            --white: #ffffff;
+            --accent-silver: #8a8a8a;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--primary-black);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Styles */
+        nav {
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid var(--light-silver);
+        }
+
+        #hamburger-nav {
+            display: none;
+        }
+
+        .logo img {
+            width: 130px;
+            height: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--primary-black);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 400;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary-black);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hamburger Navigation */
+        .hamburger-menu {
+            position: relative;
+        }
+
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 20px;
+            width: 28px;
+            cursor: pointer;
+        }
+
+        .hamburger-icon span {
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-black);
+            transition: all 0.3s ease;
+        }
+
+        .menu-links {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            width: max-content;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 1rem;
+            border-radius: 8px;
+        }
+
+        .menu-links.open {
+            max-height: 300px;
+        }
+
+        .menu-links a {
+            display: block;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            color: var(--primary-black);
+            transition: background 0.3s ease;
+        }
+
+        .menu-links a:hover {
+            background: var(--light-silver);
+        }
+
+        .menu-links li {
+            list-style: none;
+        }
+
+        .hamburger-icon.open span:first-child {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .hamburger-icon.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-icon.open span:last-child {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 80px;
+            padding: 4rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--accent-silver);
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 1px;
+            background: var(--silver);
+        }
+
+        .text-block {
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--soft-black);
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight {
+            color: var(--primary-black);
+            font-weight: 500;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            padding: 1.5rem;
+            border-left: 2px solid var(--light-silver);
+            transition: border-color 0.3s ease;
+        }
+
+        .skill-item:hover {
+            border-left-color: var(--primary-black);
+        }
+
+        .skill-item h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-item p {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--accent-silver);
+            line-height: 1.6;
+        }
+
+        /* Languages */
+        .languages-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .language-item {
+            flex: 1;
+            min-width: 150px;
+            padding: 1.5rem;
+            border: 1px solid var(--light-silver);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .language-item:hover {
+            border-color: var(--silver);
+            transform: translateY(-2px);
+        }
+
+        .language-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .language-level {
+            font-size: 0.9rem;
+            color: var(--accent-silver);
+            font-weight: 300;
+        }
+
+        /* Interests */
+        .interests-list {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .interest-tag {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--light-silver);
+            font-size: 0.95rem;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .interest-tag:hover {
+            background: var(--light-silver);
+            transform: translateY(-2px);
+        }
+
+        /* Quote */
+        .quote-block {
+            padding: 3rem 0;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .quote-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            font-weight: 300;
+            font-style: italic;
+            color: var(--soft-black);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #desktop-nav {
+                display: none;
+            }
+
+            #hamburger-nav {
+                display: flex;
+                padding: 1.5rem 2rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .hero {
+                margin-top: 60px;
+                min-height: 50vh;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .languages-list {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Desktop Navigation -->
+    <nav id="desktop-nav">
+        <div class="logo"><img src="./assets/logo.png" alt="Argho Logo" width="130"></div>
+        <div>
+            <ul class="nav-links">
+                <li><a href="./about.html">About</a></li>
+                <li><a href="./blog.html">Blog</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <nav id="hamburger-nav">
+        <div class="logo"><img src="./assets/logo.png" alt="Argho Logo" width="130"></div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="menu-links">
+                <li><a href="./about.html" onclick="toggleMenu()">About</a></li>
+                <li><a href="./blog.html" onclick="toggleMenu()">Blog</a></li>
+                <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>
+                <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div>
+                <h1>About Me</h1>
+                <!-- <p class="subtitle">Data Science Student & Creative Technologist</p> -->
+            </div>
+        </section>
+
+        <!-- Introduction -->
+        <section class="section" id="intro">
+            <p class="text-block">
+                Hey! I'm Argho, currently pursuing <span class="highlight">Information Management & Multimedia</span> 
+                with a specialized focus on <span class="highlight">Data Science, Protection & Security</span> in Belgium.
+            </p>
+            <p class="text-block">
+                My passion lies at the intersection of creativity and technology. I explore innovative solutions 
+                through coding, <span class="highlight">artificial intelligence</span>, and compelling storytelling. 
+                I believe the future belongs to those who can bridge the gap between human creativity and technological innovation.
+            </p>
+        </section>
+
+        <!-- Skills -->
+        <section class="section" id="skills">
+            <h2 class="section-title">What I Do</h2>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <h3>Development & AI</h3>
+                    <p>Building intelligent solutions through code and machine learning technologies</p>
+                </div>
+                
+                <div class="skill-item">
+                    <h3>Data Security</h3>
+                    <p>Focused on protection practices and security protocols in our digital world</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Languages -->
+        <section class="section" id="languages">
+            <h2 class="section-title">Languages</h2>
+            <div class="languages-list">
+                <div class="language-item">
+                    <div class="language-name">Bangla</div>
+                    <div class="language-level">Native</div>
+                </div>
+                <div class="language-item">
+                    <div class="language-name">English</div>
+                    <div class="language-level">Fluent</div>
+                </div>
+                <div class="language-item">
+                    <div class="language-name">Hindi</div>
+                    <div class="language-level">Conversational</div>
+                </div>
+                <div class="language-item">
+                    <div class="language-name">Dutch</div>
+                    <div class="language-level">Learning</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interests -->
+        <section class="section" id="interests">
+            <h2 class="section-title">Beyond Work</h2>
+            <div class="interests-list">
+                <div class="interest-tag">Movies</div>
+                <div class="interest-tag">Gaming</div>
+                <div class="interest-tag">Languages</div>
+                <div class="interest-tag">Technology</div>
+                <div class="interest-tag">Storytelling</div>
+            </div>
+        </section>
+
+        <!-- Quote -->
+        <section class="quote-block section">
+            <p class="quote-text">
+                "I believe life is a journey of <span class="highlight">continuous learning</span>, 
+                and this portfolio serves as my creative space to share that journey with the world."
+            </p>
+        </section>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector(".menu-links");
+            const icon = document.querySelector(".hamburger-icon");
+            menu.classList.toggle("open");
+            icon.classList.toggle("open");
+        }
+
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.section').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scrolling
+        document.documentElement.style.scrollBehavior = 'smooth';
+    </script>
+</body>
+</html>
